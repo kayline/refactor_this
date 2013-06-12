@@ -1,6 +1,7 @@
 class TodosController < ApplicationController
   def index
     @todos = Todo.all
+    @todo_lists = @todos.map(&:list_name).uniq
   end
 
   def new
