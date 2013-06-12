@@ -1,6 +1,8 @@
 class Todo < ActiveRecord::Base
   attr_accessible :title, :body, :list_name, :todo_count, :status
   before_save :format_list_name
+  
+
 
   def incomplete?
     self.status == 0
@@ -59,6 +61,7 @@ class Todo < ActiveRecord::Base
   end
 
   class << self
+
     def all_incomplete
       self.where :status => 0
     end
@@ -120,6 +123,14 @@ class Todo < ActiveRecord::Base
     def format_list_name
       self.list_name = self.list_name.parameterize
     end 
+
+    def self.update_count
+      # list_name = Todo.last.list_name
+      # @list_todos = Todo.where :list_name => list_name
+      # @list_todos.each do |todo|
+      #   todo.update_attributes :todo_count => @list_todos.count
+      # end
+    end
   
 
 end

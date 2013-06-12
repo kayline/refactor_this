@@ -15,14 +15,10 @@ class TodosController < ApplicationController
 
   def create
     p params
-    # params[:todo][:list_name] = params[:todo][:list_name].parameterize
     @todo = Todo.new params[:todo]
     if @todo.save
-      @todos = Todo.where :list_name => @todo.list_name
-      @todos.each do |todo|
-        todo.update_attributes :todo_count => @todos.count
-        todo.save
-      end
+      puts "I saved*************************"
+      update_count
       redirect_to root_url
     else
       render :new
