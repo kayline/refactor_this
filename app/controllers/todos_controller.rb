@@ -15,12 +15,10 @@ class TodosController < ApplicationController
 
   def create
     p params
-    params[:todo][:list_name] = params[:todo][:list_name].parameterize
-    list_name = params[:todo][:list_name]
+    # params[:todo][:list_name] = params[:todo][:list_name].parameterize
     @todo = Todo.new params[:todo]
     if @todo.save
-      @todo.update_attributes :list_name => list_name
-      @todos = Todo.where :list_name => list_name
+      @todos = Todo.where :list_name => @todo.list_name
       @todos.each do |todo|
         todo.update_attributes :todo_count => @todos.count
         todo.save

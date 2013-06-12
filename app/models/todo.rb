@@ -1,5 +1,6 @@
 class Todo < ActiveRecord::Base
   attr_accessible :title, :body, :list_name, :todo_count, :status
+  before_save :format_list_name
 
   def incomplete?
     self.status == 0
@@ -114,5 +115,11 @@ class Todo < ActiveRecord::Base
       self.create :status => 6
     end
   end
+
+  private
+    def format_list_name
+      self.list_name = self.list_name.parameterize
+    end 
+  
 
 end
