@@ -14,10 +14,8 @@ class TodosController < ApplicationController
   end
 
   def create
-    p params
     @todo = Todo.new params[:todo]
     if @todo.save
-      puts "I saved*************************"
       update_count
       redirect_to root_url
     else
@@ -31,16 +29,9 @@ class TodosController < ApplicationController
 
   def update
     @todo = Todo.find params[:id]
-    list_name = params[:todo].delete(:list_name)
-    list_name = list_name.downcase
-    list_name = list_name.gsub ' ', '-'
+    list_name = params[:todo][:list_name].parameterize
     if @todo.update_attributes params[:todo]
       @todo.update_attributes :list_name => list_name
-      @todos = Todo.where :list_name => list_name
-      @todos.each do |todo|
-        todo.update_attributes :todo_count => @todos.count
-        todo.save
-      end
       redirect_to @todo
     else
       render :edit
